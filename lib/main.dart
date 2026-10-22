@@ -1,4 +1,3 @@
-import 'package:estate_pro/features/auth/presentation/pages/register_page.dart';
 import 'package:estate_pro/features/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       showSemanticsDebugger: false,
       debugShowCheckedModeBanner: false,
-     
-      
       home:  HomePage(),
     );
   }
 }
-
-
 
