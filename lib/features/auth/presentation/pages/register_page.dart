@@ -1,3 +1,4 @@
+import 'package:estate_pro/features/pages/home_page.dart';
 import 'package:estate_pro/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -220,7 +221,15 @@ class _RegisterPageState extends State<RegisterPage> {
                             foregroundColor: AppColors.backgroundLight,
                           ),
 
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const HomePage(),
+                              ),
+                              (route) => false,
+                            );
+                          },
                           child: Text("Sign Up"),
                         ),
                         Gap(8),
