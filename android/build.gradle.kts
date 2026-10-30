@@ -1,5 +1,15 @@
+buildscript {
+    repositories {
+        maven { url = uri("file:///C:/gradle-local-repo") }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 allprojects {
     repositories {
+        maven { url = uri("file:///C:/gradle-local-repo") }
         google()
         mavenCentral()
     }

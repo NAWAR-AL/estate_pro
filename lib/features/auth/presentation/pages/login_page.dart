@@ -1,3 +1,4 @@
+import 'package:estate_pro/core/auth/role_manager.dart';
 import 'package:estate_pro/features/pages/home_page.dart';
 import 'package:estate_pro/features/auth/presentation/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,20 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   bool isChecked = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +89,9 @@ class _RegisterPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         TextField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.person),
                             hintText: 'User Name/ Email',
@@ -102,6 +115,9 @@ class _RegisterPageState extends State<LoginPage> {
 
                         Gap(15),
                         TextField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.password),
                             hintText: 'Password',
@@ -150,6 +166,7 @@ class _RegisterPageState extends State<LoginPage> {
                           ),
 
                           onPressed: () {
+                            RoleManager.signIn(email: _emailController.text);
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
@@ -160,6 +177,8 @@ class _RegisterPageState extends State<LoginPage> {
                           },
                           child: Text("LogIn"),
                         ),
+                        
+                    
                         Gap(8),
                         TextButton(
                           onPressed: () {

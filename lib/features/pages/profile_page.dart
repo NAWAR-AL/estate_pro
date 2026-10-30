@@ -1,3 +1,4 @@
+import 'package:estate_pro/core/auth/role_manager.dart';
 import 'package:estate_pro/features/about/presentation/pages/about_page.dart';
 import 'package:estate_pro/features/about/presentation/pages/contact_page.dart';
 import 'package:estate_pro/features/auth/presentation/pages/login_page.dart';
@@ -48,18 +49,45 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   const Gap(12),
-                  const Text(
-                    'Nawar Aln',
-                    style: TextStyle(
+                  Text(
+                    RoleManager.displayName,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppColors.white,
                     ),
                   ),
                   const Gap(4),
-                  const Text(
-                    'nawar@estatepro.com',
-                    style: TextStyle(fontSize: 13, color: Color(0xFF9FB0C3)),
+                  Text(
+                    RoleManager.email ?? 'Not signed in',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF9FB0C3),
+                    ),
+                  ),
+                  const Gap(10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: RoleManager.isAdmin
+                          ? AppColors.gold
+                          : AppColors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      RoleManager.isAdmin ? 'ADMIN' : 'USER',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.2,
+                        color: RoleManager.isAdmin
+                            ? AppColors.primary
+                            : AppColors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -85,18 +113,20 @@ class ProfilePage extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const ContactPage()),
               ),
             ),
-            const Gap(12),
-            _menuTile(
-              context,
-              icon: Icons.space_dashboard_outlined,
-              title: 'Admin Dashboard',
-              onTap: () => Navigator.push(
+            if (RoleManager.isAdmin) ...[
+              const Gap(12),
+              _menuTile(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const AdminPageFrame(index: 0),
+                icon: Icons.space_dashboard_outlined,
+                title: 'Admin Dashboard',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const AdminPageFrame(index: 0),
+                  ),
                 ),
               ),
-            ),
+            ],
             const Gap(12),
             _menuTile(
               context,
@@ -104,6 +134,7 @@ class ProfilePage extends StatelessWidget {
               title: 'Logout',
               color: AppColors.error,
               onTap: () {
+                RoleManager.signOut();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (_) => const LoginPage()),

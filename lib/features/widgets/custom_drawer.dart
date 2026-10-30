@@ -1,3 +1,4 @@
+import 'package:estate_pro/core/auth/role_manager.dart';
 import 'package:estate_pro/features/dashbord/admin/presentation/pages/admin_dashbord_page.dart';
 import 'package:estate_pro/features/dashbord/admin/presentation/pages/blog_managment_page.dart';
 import 'package:estate_pro/features/dashbord/admin/presentation/pages/message_page.dart';
@@ -125,6 +126,48 @@ class AdminPageFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!RoleManager.isAdmin) {
+      return Scaffold(
+        backgroundColor: _C.bg,
+        appBar: AppBar(
+          backgroundColor: _C.navy,
+          foregroundColor: Colors.white,
+          title: const Text('Access Denied'),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.lock_outline, size: 56, color: _C.navy),
+                const SizedBox(height: 16),
+                Text(
+                  'Admin access only',
+                  style: _title(22, color: _C.navy),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'This area is available for administrator accounts only.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: _C.navy, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => Navigator.maybePop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _C.gold,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Go back'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     final page = _destinations[index].page();
 
     return LayoutBuilder(
